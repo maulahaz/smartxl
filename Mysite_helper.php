@@ -1,6 +1,7 @@
 <?php
 
 function make_pagination($pagination_data){
+    $ci =& get_instance();
     // Note : to make this function work, it should have pagination_data like:
     // $target_url, $tot_rows, $offset_segment, $limit
 
@@ -10,7 +11,7 @@ function make_pagination($pagination_data){
     $limit = $pagination_data['limit'];
     // echo $target_url;die();
 
-    $this->load->library('pagination');
+    $ci->load->library('pagination');
 
     $config['base_url'] = $target_url;
     $config['total_rows'] = $tot_rows;		
@@ -42,9 +43,9 @@ function make_pagination($pagination_data){
     $config['num_tag_open'] = '<li class="page-item">';
     $config['num_tag_close'] = '</li>';
 
-    $this->pagination->initialize($config);
+    $ci->pagination->initialize($config);
 
-    $mhz_pagination =  $this->pagination->create_links();
+    $mhz_pagination =  $ci->pagination->create_links();
     return $mhz_pagination;
 }
 
