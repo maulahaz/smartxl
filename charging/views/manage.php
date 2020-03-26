@@ -18,7 +18,22 @@
 
 </div>
 <!-- === -->
-
+<div class="controls pull-left">
+	<!-- <?php  echo form_open('charging/search'); ?> -->
+	Search by
+	<select name="optSearch" id="optSearch">
+		<option value="">Select..</option>
+		<option value="Material">Material</option>
+		<option value="ChargeBy">Charge By</option>
+		<option value="Date">Date</option>
+		<option value="Lotnum">Lot Num</option>
+	</select>	
+	<input type="text" name="inpSearchText" id="inpSearchText">
+	<!-- <input type="text" name="inpSearchDate" id="inpSearchDate"> -->
+	<input type='text' name="inpSearchDate" id="inpSearchDate" class="date datepicker_only" />
+	<button type="submit" class="btn btn-success btn-sm ladda-button" name="btnSearch" id="btnSearch"><span class="fa fa-search"></span> Search</button>
+	<!-- <?php  echo form_close(); ?> -->
+</div>
 
 
 <!-- ==== -->
