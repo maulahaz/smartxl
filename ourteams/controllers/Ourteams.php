@@ -107,30 +107,65 @@ class Ourteams extends MX_Controller {
 	}
 
 	function search(){
-		// $this->form_validation->set_rules('search_it','Search box','required');
-		$search_by2 = $this->input->post('search_by', TRUE);
-		$data['search_it'] = $this->input->post('search_it', TRUE);
-		// print_r($search_by2);print_r($search_it);die;
-		// if($this->form_validation->run() == FALSE){
-			
-		// 	echo validation_errors();	
-		// 	die();
-		// }else{
-			if($search_by2 == ""){
-				// echo "blank";die();
-				$data['team_data'] = $this->data_by_search_gen($data['search_it']);
+		$this->load->module('site_security');
+		$this->site_security->_make_sure_logged_in();
 
-			} else{
-				// echo "isi";die();
-				$data['team_data'] = $this->data_by_search($search_by2,$data['search_it']);
-			}
-		// }
-			$data['tot_data'] = $data['team_data']->num_rows();
+		$this->load->module('halaman');
+		$this->load->model('Ourteams_mdl');
+
+		// $post = $this->input->post();
+		// var_dump($post);die();
+
+		$search_by = $this->input->post('cboSearch', TRUE);
+		$search_text = $this->input->post('txtSearch', TRUE);
+		$search_btn = $this->input->post('btnSearch', TRUE);
+
+		$limit = 5;
+		$offset = $this->get_offset();
+
+		if($search_by == ""){
+			//search data by text input only
+			//Query for total data:
+			$query = $this->Ourteams_mdl->search_by_text($search_text);
+			// $data['team_data'] = $this->Ourteams_mdl->search_by_text($search_text);
+
+			//Query for pagination data:
+			$queryPag = $this->Ourteams_mdl->search_by_text($search_text, $limit, $offset);
+
+		} else{
+			//search data by category and text input
+			//Query for total data:
+			$query = $this->Ourteams_mdl->search_by_categ($search_by, $search_text);
+			// $data['team_data'] = $this->Ourteams_mdl->search_by_categ($search_by, $search_text);
+			
+			//Query for pagination data:
+			$queryPag = $this->Ourteams_mdl->search_by_categ($search_by, $search_text);
+		}
+		// $query .= "LIMIT 10, 5";
+		// echo $this->db->last_query();die();
+		// echo "<br>".$query; die();
+		
+		// $data['team_data'] = $query;
+		$data['tot_data'] = $query->num_rows();
+
+		//Pagination
+		$pagination_data['target_url'] = base_url('ourteams/search');
+		$pagination_data['tot_rows'] = $data['tot_data'];
+		$pagination_data['offset_segment'] = 3;
+		$pagination_data['limit'] = $limit;
+		$data['halamanku'] = $this->halaman->bs4_pagination($pagination_data);
+
+		// $mysql_query = "SELECT * from tbl_user WHERE usr_status=1 ORDER BY usr_Name ASC LIMIT $offset, $limit";
+		// $data['team_data'] = $this->_custom_query($mysql_query);		
+		$data['team_data'] = $queryPag;	
+
+		$data['page_title'] = "Ourteam - SmartXL";
+		$data['page'] = $offset;
 
 		$data['view_module'] = "ourteams";
-		$data['view_file'] = "manage2";
+		$data['view_file'] = "manage";
 		$this->load->module('templates');
-		$this->templates->blank($data);
+		$this->templates->blank_top_menu($data);
 	}
 
 	function fetch_data_from_post(){
@@ -196,18 +231,6 @@ class Ourteams extends MX_Controller {
 	function get_with_double_condition($col1, $value1, $col2, $value2){
 		$this->load->model('ourteams_mdl');
 		$query = $this->ourteams_mdl->get_with_double_condition($col1, $value1, $col2, $value2);
-		return $query;
-	}
-
-	function data_by_search($search_by,$search_it){
-		$this->load->model('ourteams_mdl');
-		$query = $this->ourteams_mdl->data_by_search($search_by,$search_it);
-		return $query;
-	}
-
-	function data_by_search_gen($search_it){
-		$this->load->model('ourteams_mdl');
-		$query = $this->ourteams_mdl->data_by_search_gen($search_it);
 		return $query;
 	}
 
