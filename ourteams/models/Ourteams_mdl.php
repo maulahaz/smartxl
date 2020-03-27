@@ -48,28 +48,29 @@ class Ourteams_mdl extends CI_Model{
 		return $query;
 	}
 
-	function data_by_search($search_by,$search_it){
+	function search_by_categ($search_by, $search_text, $limit = null, $offset = null){
 		$table = $this->get_table();
 		$this->db->where('usr_Status', 1);
-		$this->db->like($search_by, $search_it);
+		$this->db->like($search_by, $search_text);
+		$this->db->limit($limit, $offset);
 		$this->db->order_by('usr_ID ASC');		
 		$query = $this->db->get($table);
-		// print_r($query);die();
 		return $query;
 	}
 
-	function data_by_search_gen($search_it){
+	function search_by_text($search_text, $limit = null, $offset = null){
 		$table = $this->get_table();
 		
-		$this->db->like('usr_ID', $search_it);
-		$this->db->or_like('usr_Name', $search_it);
-		$this->db->or_like('usr_Email', $search_it);
-		$this->db->or_like('usr_Position', $search_it);
-		$this->db->or_like('usr_Phone1', $search_it);
+		$this->db->like('usr_ID', $search_text);
+		$this->db->or_like('usr_Name', $search_text);
+		$this->db->or_like('usr_Email', $search_text);
+		$this->db->or_like('usr_Position', $search_text);
+		$this->db->or_like('usr_Phone1', $search_text);
+		$this->db->limit($limit, $offset);
 		$this->db->order_by('usr_ID ASC');
 		// $this->db->where("usr_Status = 1 AND 
-  //       (usr_ID LIKE '%$search_it%' OR usr_Name LIKE '%$search_it%' 
-  //       OR usr_Position LIKE '%$search_it%' OR usr_Phone1 LIKE '%$search_it%')");	
+  //       (usr_ID LIKE '%$search_text%' OR usr_Name LIKE '%$search_text%' 
+  //       OR usr_Position LIKE '%$search_text%' OR usr_Phone1 LIKE '%$search_text%')");	
   //       $this->db->order_by('uid ASC');		
 		$query = $this->db->get($table);
 		// print_r($query);die();
