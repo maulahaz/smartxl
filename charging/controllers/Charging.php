@@ -9,6 +9,15 @@ class Charging extends MX_Controller {
 		redirect('charging/manage');
 		
 	}
+	
+	function test(){
+		$data['page_title'] = "Gentelella V";
+
+		$data['view_module'] = "charging";
+		$data['view_file'] = "test_gentelella";
+		$data['local_js'] = "charging_js";
+		$this->load->view('template', $data, FALSE);
+	}
 
 	function manage(){
 		$this->load->module('site_security');
