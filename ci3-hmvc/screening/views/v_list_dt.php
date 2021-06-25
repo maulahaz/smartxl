@@ -4,8 +4,6 @@
 	//-To view Flash Message
 	if(isset($flash)){ echo $flash; }
 
-	$frmLoc_actionSearch = base_url('screening/list');
-	$frmLoc_actionPrint = base_url('screening/printing');
 ?>
 
 <!-- <section class="box-typical box-typical-max-280 scrollable"> -->
@@ -25,104 +23,31 @@
 			
 		</div>
 		<div class="input-daterange">
-
-			<form action="<?= $frmLoc_actionSearch; ?>" method="post">
-			<div class="col-md-1">
-				Search :
-			</div>
-			<div class="col-md-2">
-				<div class="form-group">
-					<div class='input-group date datepicker_only'>
-						<input type='text' class="form-control" name="txtDatetimeFrm" id="txtDatetimeFrm" placeholder="Date and Time From"/>
-						<span class="input-group-addon">
-							<i class="font-icon font-icon-calend"></i>
-						</span>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-2">
-				<div class="form-group">
-					<div class='input-group date datepicker_only'>
-						<input type='text' class="form-control" name="txtDatetimeTo" id="txtDatetimeTo" placeholder="Date and Time To"/>
-						<span class="input-group-addon">
-							<i class="font-icon font-icon-calend"></i>
-						</span>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-3">
-			<!-- <div class="tbl-cell pull-left"> -->
-
-				<button type="submit" class="btn btn-default" name="submit" value="Refresh"><i class="fa fa-refresh"></i> </button>
-
-				<!-- Search Button -->
-				<button type="submit" class="btn" name="submit" value="Search" data-toggle="tooltip" data-placement="top" title="Search"><i class="fa fa-search"></i> </button>
-
-				<!-- Printing Button -->
-				<button type="button" class="btn" name="btnPrintReport" id="btnPrintReport" value="Print" data-toggle="modal" data-target="#modCDO">
-					<span class="tags" data-toggle="tooltip" data-placement="top" title="Print">
-					<i class="fa fa-print"></i> 
-					</span>
-				</button>	
-			<!-- </div> -->
-			</div>
-			</form>
 			<!-- <div class="tbl-cell tbl-cell-action-bordered pull-right"> -->
 			<div class="tbl-cell pull-right">
 				<button type="button" class="action-btn" id="btnAdd" data-toggle="tooltip" data-placement="top" title="Register"><a href="#"><i class="font-icon font-icon-plus"></i> Register</a></button>
 			</div>
 		</div>
 	</header>
-		<table id="myTable" class="table table-bordered table-hover table-xs">
-			<thead>
-			<tr>
-				<th>#</th>
-				<th>Emp.ID</th>
-				<th>Name</th>
-				<th>Phone</th>
-				<th>Emirate ID</th>
-				<th>Scr. Date</th>
-				<th>Note</th>
-				<th class="text-center">Action</th>
-			</tr>
-			</thead>
-			<tbody>
-                <?php  
-                if ($qryScreen->num_rows() > 0 ) {
-                	// $sn = 1;
-                    ($offset < 1) ? $sn = 1 : ($sn = $offset + 1) ; //<-- Numbering due to Pagination
-                    foreach ($qryScreen->result() as $row) {
-                    $date = $this->mydatetime->get_nice_date($row->Screen_dt,'mydate');                   
-                ?>
-                <tr>
-                    <td><?= $sn++ ?></td>
-                    <td><?= $row->Emp_id ?></td>
-                    <td><?= $row->Name ?></td>
-                    <td><?= $row->Phone ?></td>
-                    <td><?= $row->Emirate_id ?></td>
-                    <td><?= $date ?></td>                       
-                    <td><?= $row->Note ?></td>                    
-                    <td class="text-center" style="width: 25px">
-						<div class="btn-group">
-							<button type="button" class="btn btn-sm btn-inline dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-								Action
-							</button>
-							<div class="dropdown-menu">
-								<a href="javascript:;" class="dropdown-item" onclick="edit(<?= $row->uid ?>)">Edit</a>
-								<a href="javascript:;" class="dropdown-item" onclick="del(<?= $row->uid ?>)">Delete</a>
-							</div>
-						</div>
-                    </td>                                    
-                </tr>
-                <?php 
-            		} 
-            	} else{
-            	?> 
-            	<td colspan="8" class="text-center">Data not available</td>
-            	<?php } ?>                                                                   
-              </tbody>
-		</table>
-		<?= $halamanku; ?>
+		<section class="card">
+			<div class="card-block">
+				<table id="tbl_manage" class="display table table-bordered" cellspacing="0" width="100%">
+					<thead>
+					<tr>
+						<th>#</th>
+						<th>Emp.ID</th>
+						<th>Name</th>
+						<th>Phone</th>
+						<th>Emirate ID</th>
+						<th>Scr. Date</th>
+						<th>Note</th>
+						<th>Options</th>
+					</tr>
+					</thead>
+				</table>
+			</div>
+		</section>
+
 </section>
 
 <!-- Modal -->
