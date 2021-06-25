@@ -119,7 +119,7 @@ class Cdo extends MX_Controller {
 			$this->form_validation->set_rules('reason','Reason','required');
 
 			if($this->form_validation->run() == TRUE){
-				$postedData['Usr_id'] = $updateID;
+				$postedData['Usr_id'] = $loginID;
 				$postedData['Type'] = $this->input->post('cdo_type', TRUE);
 				$postedData['Datetime_frm'] = $this->mydatetime->my_timestamp_from_datetimepicker($dateFrom);
 				$postedData['Datetime_to'] = $this->mydatetime->my_timestamp_from_datetimepicker($dateTo);
